@@ -1,25 +1,14 @@
-import { useEffect } from 'react';
-import { productsApi } from './api';
+import { Suspense } from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import { AppRouter } from './router';
 
 function App() {
-  useEffect(() => {
-    productsApi.get('/categorias/')
-      .then(console.log)
-      .catch(console.error);
-  }, []);
-
   return (
-    <>
-      <h1>bd-drugstore-app</h1>
-      <section>
-        <span>Integrantes:</span>
-        <ul>
-          <li>Chambilla Perca, Valentina Milagros</li>
-          <li>Ordoño Poma, Gustavo Eduardo</li>
-          <li>Pacori Anccasi, Diego Ivan</li>
-        </ul>
-      </section>
-    </>
+    <Suspense fallback={<h1>Loading...</h1>}>
+      <BrowserRouter>
+        <AppRouter />
+      </BrowserRouter>
+    </Suspense>
   );
 }
 
