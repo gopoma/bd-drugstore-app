@@ -1,9 +1,13 @@
 import { Link } from 'react-router-dom';
 
+import classes from './HomePage.module.css';
+
+console.log(classes);
+
 export const HomePage = () => {
   return (
     <>
-      <h1>bd-drugstore-app</h1>
+      <h1 className={classes['title']}>bd-drugstore-app</h1>
 
       <section>
         <span>Integrantes:</span>
