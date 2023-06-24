@@ -31,8 +31,18 @@ export const categoriasSlice = createSlice({
         state.selectedCategorias.push(payload);
       }
     },
+    onToggleAllCategorias: (state) => {
+      if (state.selectedCategorias.length === state.categorias.length) {
+        state.selectedCategorias = [];
+      } else {
+        state.selectedCategorias = state.categorias.map((categoria) => categoria.CatCod);
+      }
+    },
     onCancelCategorias: (state) => {
       state.activeCategoria = activeCategoria;
+      state.selectedCategorias = [];
+    },
+    onCleanSelectedCategorias: (state) => {
       state.selectedCategorias = [];
     },
     onEditCategoria: (state, { payload }) => {
@@ -56,4 +66,6 @@ export const {
   onSetActiveCategoria,
   onCancelCategorias,
   onEditCategoria,
+  onCleanSelectedCategorias,
+  onToggleAllCategorias,
 } = categoriasSlice.actions;

@@ -7,6 +7,8 @@ import {
   onToggleSelectCategoria,
   onCancelCategorias,
   onEditCategoria,
+  onCleanSelectedCategorias,
+  onToggleAllCategorias,
 } from '../store';
 
 export const useCategoriasStore = () => {
@@ -56,6 +58,49 @@ export const useCategoriasStore = () => {
     dispatch(onCancelCategorias());
   };
 
+  const deactivate = async () => {
+    const promises = selectedCategorias.map(async (idCategoria) => {
+      const { data } = await productsApi.patch(`/categorias/${idCategoria}`, { CatEstReg: 'I' });
+      return data.categoria;
+    });
+
+    const results = await Promise.allSettled(promises);
+    results.forEach(({ value: categoria }) => {
+      dispatch(onEditCategoria(categoria));
+    });
+    dispatch(onCleanSelectedCategorias());
+  };
+
+  const activate = async () => {
+    const promises = selectedCategorias.map(async (idCategoria) => {
+      const { data } = await productsApi.patch(`/categorias/${idCategoria}`, { CatEstReg: 'A' });
+      return data.categoria;
+    });
+
+    const results = await Promise.allSettled(promises);
+    results.forEach(({ value: categoria }) => {
+      dispatch(onEditCategoria(categoria));
+    });
+    dispatch(onCleanSelectedCategorias());
+  };
+
+  const deleteMany = async () => {
+    const promises = selectedCategorias.map(async (idCategoria) => {
+      const { data } = await productsApi.patch(`/categorias/${idCategoria}`, { CatEstReg: '*' });
+      return data.categoria;
+    });
+
+    const results = await Promise.allSettled(promises);
+    results.forEach(({ value: categoria }) => {
+      dispatch(onEditCategoria(categoria));
+    });
+    dispatch(onCleanSelectedCategorias());
+  };
+
+  const toggleAllCategorias = () => {
+    dispatch(onToggleAllCategorias());
+  };
+
   return {
     //* Propiedades
     categorias,
@@ -70,5 +115,9 @@ export const useCategoriasStore = () => {
     setActiveCategoria,
     toggleSelectCategoria,
     cancelCategorias,
+    toggleAllCategorias,
+    deactivate,
+    activate,
+    deleteMany,
   };
 };

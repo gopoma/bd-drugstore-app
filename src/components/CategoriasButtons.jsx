@@ -5,13 +5,16 @@ export const CategoriasButtons = () => {
   const navigate = useNavigate();
   const {
     isValidActiveCategoria,
-    startSavingCategoria,
     selectedCategoriasCount,
     categorias,
     selectedCategorias,
-    setActiveCategoria,
     activeCategoria,
+    startSavingCategoria,
+    setActiveCategoria,
     cancelCategorias,
+    deactivate,
+    activate,
+    deleteMany,
   } = useCategoriasStore();
 
   const onEdit = () => {
@@ -45,6 +48,7 @@ export const CategoriasButtons = () => {
       <button
         type="button"
         disabled={selectedCategoriasCount === 0}
+        onClick={deleteMany}
       >
         Eliminar
       </button>
@@ -57,12 +61,14 @@ export const CategoriasButtons = () => {
       <button
         type="button"
         disabled={selectedCategoriasCount === 0}
+        onClick={deactivate}
       >
         Inactivar
       </button>
       <button
         type="button"
         disabled={selectedCategoriasCount === 0}
+        onClick={activate}
       >
         Reactivar
       </button>
