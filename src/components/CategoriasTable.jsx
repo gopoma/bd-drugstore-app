@@ -1,4 +1,5 @@
 import { useCategoriasStore } from '../hooks';
+import { CategoriasItem } from './CategoriasItem';
 
 export const CategoriasTable = () => {
   const { categorias } = useCategoriasStore();
@@ -21,14 +22,10 @@ export const CategoriasTable = () => {
           <tbody>
             {
               categorias.map((categoria) => (
-                <tr key={categoria.CatCod}>
-                  <td>
-                    <input type="checkbox" />
-                  </td>
-                  <td>{categoria.CatCod}</td>
-                  <td>{categoria.CatDes}</td>
-                  <td>{categoria.CatEstReg}</td>
-                </tr>
+                <CategoriasItem
+                  key={categoria.CatCod}
+                  categoria={categoria}
+                />
               ))
             }
           </tbody>

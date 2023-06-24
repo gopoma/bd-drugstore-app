@@ -10,6 +10,7 @@ export const categoriasSlice = createSlice({
   initialState: {
     categorias: [],
     activeCategoria,
+    selectedCategorias: [],
   },
   reducers: {
     onLoadCategorias: (state, { payload = [] }) => {
@@ -22,11 +23,37 @@ export const categoriasSlice = createSlice({
     onSetActiveCategoria: (state, { payload }) => {
       state.activeCategoria = payload;
     },
+    onToggleSelectCategoria: (state, { payload }) => {
+      if (state.selectedCategorias.includes(payload)) {
+        // eslint-disable-next-line
+        state.selectedCategorias = state.selectedCategorias.filter((idCategoria) => idCategoria !== payload);
+      } else {
+        state.selectedCategorias.push(payload);
+      }
+    },
+    onCancelCategorias: (state) => {
+      state.activeCategoria = activeCategoria;
+      state.selectedCategorias = [];
+    },
+    onEditCategoria: (state, { payload }) => {
+      state.categorias = state.categorias.map((categoria) => {
+        if (categoria.CatCod === payload.CatCod) {
+          return payload;
+        }
+
+        return categoria;
+      });
+
+      state.activeCategoria = activeCategoria;
+    },
   },
 });
 
 export const {
-  onSetActiveCategoria,
-  onAddNewCategoria,
   onLoadCategorias,
+  onAddNewCategoria,
+  onToggleSelectCategoria,
+  onSetActiveCategoria,
+  onCancelCategorias,
+  onEditCategoria,
 } = categoriasSlice.actions;

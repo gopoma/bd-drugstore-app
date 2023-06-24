@@ -4,11 +4,18 @@ import {
   onSetActiveCategoria,
   onAddNewCategoria,
   onLoadCategorias,
+  onToggleSelectCategoria,
+  onCancelCategorias,
+  onEditCategoria,
 } from '../store';
 
 export const useCategoriasStore = () => {
   const dispatch = useDispatch();
-  const { categorias, activeCategoria } = useSelector((state) => state.categorias);
+  const {
+    categorias,
+    activeCategoria,
+    selectedCategorias,
+  } = useSelector((state) => state.categorias);
 
   const startLoadingCategorias = async () => {
     try {
@@ -23,6 +30,8 @@ export const useCategoriasStore = () => {
   const startSavingCategoria = async () => {
     try {
       if (activeCategoria.CatCod) {
+        const { data } = await productsApi.patch(`/categorias/${activeCategoria.CatCod}`, activeCategoria);
+        dispatch(onEditCategoria({ ...data.categoria }));
         return;
       }
 
@@ -39,15 +48,27 @@ export const useCategoriasStore = () => {
     dispatch(onSetActiveCategoria(categoria));
   };
 
+  const toggleSelectCategoria = (idCategoria) => {
+    dispatch(onToggleSelectCategoria(idCategoria));
+  };
+
+  const cancelCategorias = () => {
+    dispatch(onCancelCategorias());
+  };
+
   return {
     //* Propiedades
     categorias,
     activeCategoria,
     isValidActiveCategoria: activeCategoria.CatDes.trim() !== '',
+    selectedCategorias,
+    selectedCategoriasCount: selectedCategorias.length,
 
     //* Métodos
     startLoadingCategorias,
     startSavingCategoria,
     setActiveCategoria,
+    toggleSelectCategoria,
+    cancelCategorias,
   };
 };
