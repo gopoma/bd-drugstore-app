@@ -1,7 +1,8 @@
 import { useCategoriasStore } from '../hooks';
+import { CategoriasItem } from './CategoriasItem';
 
 export const CategoriasTable = () => {
-  const { categorias } = useCategoriasStore();
+  const { categorias, toggleAllCategorias, selectedCategorias } = useCategoriasStore();
 
   return (
     <section>
@@ -11,7 +12,12 @@ export const CategoriasTable = () => {
           <thead>
             <tr>
               <th>
-                <input type="checkbox" />
+                <input
+                  type="checkbox"
+                  checked={selectedCategorias.length === categorias.length}
+                  onChange={() => {}}
+                  onClick={toggleAllCategorias}
+                />
               </th>
               <th>Código</th>
               <th>Descripción</th>
@@ -21,14 +27,10 @@ export const CategoriasTable = () => {
           <tbody>
             {
               categorias.map((categoria) => (
-                <tr key={categoria.CatCod}>
-                  <td>
-                    <input type="checkbox" />
-                  </td>
-                  <td>{categoria.CatCod}</td>
-                  <td>{categoria.CatDes}</td>
-                  <td>{categoria.CatEstReg}</td>
-                </tr>
+                <CategoriasItem
+                  key={categoria.CatCod}
+                  categoria={categoria}
+                />
               ))
             }
           </tbody>
