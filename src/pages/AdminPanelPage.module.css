@@ -1,11 +1,12 @@
 .container {
-    margin-top: 100px;
+    margin: 0 15px 0 15px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .container-panel {
+    margin: 100px 0 20px 0;
     padding: 15px;
     display: flex;
     flex-direction: column;

@@ -1,12 +1,12 @@
 .container-intro {
-  margin-top: 100px;
+  margin-top: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .container {
-  margin: 20px;
+  margin: 20px 15px 20px 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -21,7 +21,7 @@
 .title {
   font-size: 50px;
   font-weight: bold;
-  color: #6c3ef8;
+  color: #154fc6;
 }
 
 .container-info {
@@ -34,7 +34,7 @@
   font-size: 30px;
   font-weight: bold;
   text-align: center;
-  color: #8265db;
+  color: #1d4eb1;
 }
 
 .info-list {
