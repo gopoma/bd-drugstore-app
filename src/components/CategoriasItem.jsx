@@ -1,19 +1,25 @@
-import { useRef } from 'react';
+import { useState } from 'react';
 import { useCategoriasStore } from '../hooks';
 import classes from './CategoriasTable.module.css';
 
 export const CategoriasItem = ({ categoria }) => {
-  const checkRef = useRef();
+  const [selected, setSelected] = useState(false);
   const { selectedCategorias, toggleSelectCategoria } = useCategoriasStore();
 
+  const onSelected = (event) => {
+    event.stopPropagation();
+    setSelected(!selected);
+    toggleSelectCategoria(categoria.CatCod);
+  };
+
   return (
-    <tr onClick={() => checkRef.current.click()}>
+    <tr onClick={onSelected}>
       <td className={` ${classes['table-header-checkbox']}`}>
         <input
           type="checkbox"
           checked={selectedCategorias.includes(categoria.CatCod)}
-          onChange={() => toggleSelectCategoria(categoria.CatCod)}
-          ref={checkRef}
+          onChange={()=>{}}
+          value={selected}
       /></td>
       <td className={` ${classes['table-header-codigo']}`}>{categoria.CatCod}</td>
       <td className={` ${classes['table-header-description']}`}>{categoria.CatDes}</td>
