@@ -1,17 +1,18 @@
 import { useCategoriasStore } from '../hooks';
 import { CategoriasItem } from './CategoriasItem';
+import classes from './CategoriasTable.module.css';
 
 export const CategoriasTable = () => {
   const { categorias, toggleAllCategorias, selectedCategorias } = useCategoriasStore();
 
   return (
-    <section>
+    <section className={classes['container']}>
       <h2>Tabla_Categoría</h2>
-      <section>
-        <table>
+      <section className={classes['container-table']}>
+        <table className={classes['table']}>
           <thead>
             <tr>
-              <th>
+              <th className={`${classes['table-header']} ${classes['table-header-checkbox']}`}>
                 <input
                   type="checkbox"
                   checked={selectedCategorias.length === categorias.length}
@@ -19,9 +20,9 @@ export const CategoriasTable = () => {
                   onClick={toggleAllCategorias}
                 />
               </th>
-              <th>Código</th>
-              <th>Descripción</th>
-              <th>Estado Registro</th>
+              <th className={`${classes['table-header']} ${classes['table-header-codigo']}`}>Código</th>
+              <th className={`${classes['table-header']} ${classes['table-header-description']}`}>Descripción</th>
+              <th className={`${classes['table-header']} ${classes['table-header-estado-registro']}`}>Estado Registro</th>
             </tr>
           </thead>
           <tbody>

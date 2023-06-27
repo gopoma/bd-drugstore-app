@@ -1,5 +1,6 @@
 import { useId } from 'react';
 import { useCategoriasStore } from '../hooks';
+import classes from './CategoriasForm.module.css';
 
 export const CategoriasForm = () => {
   const descripcionInputId = useId();
@@ -14,22 +15,23 @@ export const CategoriasForm = () => {
   };
 
   return (
-    <section>
+    <section className={classes['container']}>
       <h2>Registro de Categoría</h2>
-      <section>
-        <form>
-          <div>
-            <label htmlFor={descripcionInputId}>Descripción:</label>
+      <section className={classes['container-form']}>
+        <form className={classes['form']}>
+          <div className={classes['form-container-input']}>
+            <label className={classes['label-input']} htmlFor={descripcionInputId}>Descripción:</label>
             <input
               type="text"
               id={descripcionInputId}
               name="CatDes"
               onChange={onInputChange}
               value={activeCategoria.CatDes}
+              className={classes['input']}
             />
           </div>
-          <div>
-            <label htmlFor={estadoRegistroInputId}>Estado Registro</label>
+          <div className={classes['form-container-input']}>
+            <label className={classes['label-input']} htmlFor={estadoRegistroInputId}>Estado Registro</label>
             <select
               id={estadoRegistroInputId}
               name="CatEstReg"
