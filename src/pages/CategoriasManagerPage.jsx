@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useCategoriasStore } from '../hooks';
 import { CategoriasButtons, CategoriasForm, CategoriasTable } from '../components';
+import classes from './CategoriasManagerPage.module.css';
 
 export const CategoriasManagerPage = () => {
   const { startLoadingCategorias } = useCategoriasStore();
@@ -10,15 +11,17 @@ export const CategoriasManagerPage = () => {
   }, []);
 
   return (
-    <>
-      <h1>Categorías</h1>
+    <div className={classes['container']}>
+      <div className={classes['container-category']}>
+        <h1>Categorías</h1>
 
-      <CategoriasForm />
+        <CategoriasForm />
 
-      <CategoriasTable />
+        <CategoriasTable />
 
-      <CategoriasButtons />
-    </>
+        <CategoriasButtons />
+      </div>
+    </div>
   );
 };
 

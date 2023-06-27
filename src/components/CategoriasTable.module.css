@@ -1,6 +1,7 @@
 .container {
     background: #cccccc;
     padding: 5px;
+    width: 100%;
 }
 
 .container-table {
@@ -10,7 +11,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 30px 0px 38px 0px;
+    padding: 30px 10px 38px 10px;
 }
 
 .table {
@@ -37,7 +38,7 @@
 .table-header {
     /* width: 100%; */
     text-align: start;
-    word-break: break-all;
+    word-break: normal;
     word-break: normal;
     border: 1px solid black;
     background: #d4d8df;
@@ -50,9 +51,11 @@
 }
 .table-header-codigo {
     width: 100px;
+
 }
 .table-header-description {
-    width: 500px;
+    max-width: 500px;
+    width: 100%;
 }
 .table-header-estado-registro {
     width: 450px;
@@ -68,6 +71,7 @@ td {
 
 tbody tr {
     border: 1px solid black;
+    overflow-x: auto;
 }
 tbody tr:nth-child(2n) {
     background: #e6e6e9;

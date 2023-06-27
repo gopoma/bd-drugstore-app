@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useCategoriasStore } from '../hooks';
+import classes from './CategoriasButtons.module.css';
 
 export const CategoriasButtons = () => {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ export const CategoriasButtons = () => {
   };
 
   return (
-    <section>
+    <section className={classes['container-buttons']}>
       <button
         type="button"
         disabled={Object.keys(activeCategoria).includes('CatCod') || !isValidActiveCategoria}
