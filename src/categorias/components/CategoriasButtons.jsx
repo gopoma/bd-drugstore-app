@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import { useCategoriasStore } from '../../hooks';
 import classes from './CategoriasButtons.module.css';
 
@@ -49,7 +50,21 @@ export const CategoriasButtons = () => {
       <button
         type="button"
         disabled={selectedCategoriasCount === 0}
-        onClick={deleteMany}
+        onClick={async () => {
+          const { isConfirmed } = await Swal.fire({
+            title: 'Are you sure?',
+            text: 'Are you sure that you want to delete these records?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085D6',
+            cancelButtonColor: '#D33',
+            confirmButtonText: 'Yes, delete it!',
+          });
+
+          if (isConfirmed) {
+            deleteMany();
+          }
+        }}
       >
         Eliminar
       </button>
@@ -76,7 +91,21 @@ export const CategoriasButtons = () => {
       <button
         type="button"
         disabled={!Object.keys(activeCategoria).includes('CatCod') || !isValidActiveCategoria}
-        onClick={startSavingCategoria}
+        onClick={async () => {
+          const { isConfirmed } = await Swal.fire({
+            title: 'Are you sure?',
+            text: 'You won\'t be able to revert this!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085D6',
+            cancelButtonColor: '#D33',
+            confirmButtonText: 'Yes, edit it!',
+          });
+
+          if (isConfirmed) {
+            startSavingCategoria();
+          }
+        }}
       >
         Actualizar
       </button>
