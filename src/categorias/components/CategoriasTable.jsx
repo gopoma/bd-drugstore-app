@@ -1,4 +1,4 @@
-import { useCategoriasStore } from '../hooks';
+import { useCategoriasStore } from '../../hooks';
 import { CategoriasItem } from './CategoriasItem';
 import classes from './CategoriasTable.module.css';
 

@@ -1,5 +1,5 @@
 import { useId } from 'react';
-import { useCategoriasStore } from '../hooks';
+import { useCategoriasStore } from '../../hooks';
 import classes from './CategoriasForm.module.css';
 
 export const CategoriasForm = () => {

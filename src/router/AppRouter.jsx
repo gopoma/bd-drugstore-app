@@ -1,6 +1,5 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { Navbar } from '../components';
-import { HomePage } from '../pages';
 import { routes } from './routes';
 
 export const AppRouter = () => {
@@ -8,8 +7,6 @@ export const AppRouter = () => {
     <>
       <Navbar />
       <Routes>
-        <Route path="/" element={<HomePage />} />
-
         {
           routes.map(({ path, Component }) => (
             <Route

@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useCategoriasStore } from '../hooks';
+import { useCategoriasStore } from '../../hooks';
 import classes from './CategoriasButtons.module.css';
 
 export const CategoriasButtons = () => {

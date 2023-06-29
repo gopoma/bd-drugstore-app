@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import classes from './AdminPanelPage.module.css';
 
-
 export const AdminPanelPage = () => {
   return (
     <div className={classes['container']}>
