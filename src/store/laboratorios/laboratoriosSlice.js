@@ -39,7 +39,7 @@ export const laboratoriosSlice = createSlice({
       }
     },
     onCancelLaboratorios: (state) => {
-      state.activeLaboratorio = activeLaboratorio;
+      state.activeLaboratorio = { ...activeLaboratorio };
       state.selectedLaboratorios = [];
     },
     onCleanSelectedLaboratorios: (state) => {
@@ -54,7 +54,7 @@ export const laboratoriosSlice = createSlice({
         return laboratorio;
       });
 
-      state.activeLaboratorio = activeLaboratorio;
+      state.activeLaboratorio = { ...activeLaboratorio };
     },
   },
 });

@@ -39,7 +39,7 @@ export const categoriasSlice = createSlice({
       }
     },
     onCancelCategorias: (state) => {
-      state.activeCategoria = activeCategoria;
+      state.activeCategoria = { ...activeCategoria };
       state.selectedCategorias = [];
     },
     onCleanSelectedCategorias: (state) => {
@@ -54,7 +54,7 @@ export const categoriasSlice = createSlice({
         return categoria;
       });
 
-      state.activeCategoria = activeCategoria;
+      state.activeCategoria = { ...activeCategoria };
     },
   },
 });
