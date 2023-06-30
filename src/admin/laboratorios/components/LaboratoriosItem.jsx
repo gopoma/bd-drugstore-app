@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useLaboratoriosStore } from '../../hooks';
-import classes from '../../styles/Table.module.css';
+import { useLaboratoriosStore } from '../../../hooks';
+import classes from '../../../styles/Table.module.css';
 
 export const LaboratoriosItem = ({ laboratorio }) => {
   const [selected, setSelected] = useState(false);

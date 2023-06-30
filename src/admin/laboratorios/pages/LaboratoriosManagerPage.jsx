@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import { useLaboratoriosStore } from '../../hooks';
+import { useLaboratoriosStore } from '../../../hooks';
 import { LaboratoriosButtons, LaboratoriosForm, LaboratoriosTable } from '../components';
-import classes from '../../styles/Container.module.css';
+import classes from '../../../styles/Container.module.css';
 
 export const LaboratoriosManagerPage = () => {
   const { startLoadingLaboratorios } = useLaboratoriosStore();

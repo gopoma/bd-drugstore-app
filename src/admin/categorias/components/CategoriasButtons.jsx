@@ -1,33 +1,33 @@
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { useLaboratoriosStore } from '../../hooks';
-import classes from '../../styles/Buttons.module.css';
+import { useCategoriasStore } from '../../../hooks';
+import classes from '../../../styles/Buttons.module.css';
 
-export const LaboratoriosButtons = () => {
+export const CategoriasButtons = () => {
   const navigate = useNavigate();
   const {
-    isValidActiveLaboratorio,
-    selectedLaboratoriosCount,
-    laboratorios,
-    selectedLaboratorios,
-    activeLaboratorio,
-    startSavingLaboratorio,
-    setActiveLaboratorio,
-    cancelLaboratorios,
+    isValidActiveCategoria,
+    selectedCategoriasCount,
+    categorias,
+    selectedCategorias,
+    activeCategoria,
+    startSavingCategoria,
+    setActiveCategoria,
+    cancelCategorias,
     deactivate,
     activate,
     deleteMany,
-  } = useLaboratoriosStore();
+  } = useCategoriasStore();
 
   const onEdit = () => {
-    const [idSelectedLaboratorio] = selectedLaboratorios;
+    const [idSelectedCategoria] = selectedCategorias;
     // eslint-disable-next-line
-    const selectedLaboratorio = laboratorios.find((laboratorio) => laboratorio.LabCod === idSelectedLaboratorio);
-    setActiveLaboratorio(selectedLaboratorio);
+    const selectedCategoria = categorias.find((categoria) => categoria.CatCod === idSelectedCategoria);
+    setActiveCategoria(selectedCategoria);
   };
 
   const onExit = () => {
-    cancelLaboratorios();
+    cancelCategorias();
     navigate('/admin');
   };
 
@@ -35,21 +35,21 @@ export const LaboratoriosButtons = () => {
     <section className={classes['container-buttons']}>
       <button
         type="button"
-        disabled={Object.keys(activeLaboratorio).includes('LabCod') || !isValidActiveLaboratorio}
-        onClick={startSavingLaboratorio}
+        disabled={Object.keys(activeCategoria).includes('CatCod') || !isValidActiveCategoria}
+        onClick={startSavingCategoria}
       >
         Adicionar
       </button>
       <button
         type="button"
-        disabled={selectedLaboratoriosCount !== 1}
+        disabled={selectedCategoriasCount !== 1}
         onClick={onEdit}
       >
         Modificar
       </button>
       <button
         type="button"
-        disabled={selectedLaboratoriosCount === 0}
+        disabled={selectedCategoriasCount === 0}
         onClick={async () => {
           const { isConfirmed } = await Swal.fire({
             title: 'Are you sure?',
@@ -70,27 +70,27 @@ export const LaboratoriosButtons = () => {
       </button>
       <button
         type="button"
-        onClick={cancelLaboratorios}
+        onClick={cancelCategorias}
       >
         Cancelar
       </button>
       <button
         type="button"
-        disabled={selectedLaboratoriosCount === 0}
+        disabled={selectedCategoriasCount === 0}
         onClick={deactivate}
       >
         Inactivar
       </button>
       <button
         type="button"
-        disabled={selectedLaboratoriosCount === 0}
+        disabled={selectedCategoriasCount === 0}
         onClick={activate}
       >
         Reactivar
       </button>
       <button
         type="button"
-        disabled={!Object.keys(activeLaboratorio).includes('LabCod') || !isValidActiveLaboratorio}
+        disabled={!Object.keys(activeCategoria).includes('CatCod') || !isValidActiveCategoria}
         onClick={async () => {
           const { isConfirmed } = await Swal.fire({
             title: 'Are you sure?',
@@ -103,7 +103,7 @@ export const LaboratoriosButtons = () => {
           });
 
           if (isConfirmed) {
-            startSavingLaboratorio();
+            startSavingCategoria();
           }
         }}
       >

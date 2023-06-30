@@ -1,6 +1,6 @@
-import { useLaboratoriosStore } from '../../hooks';
+import { useLaboratoriosStore } from '../../../hooks';
 import { LaboratoriosItem } from './LaboratoriosItem';
-import classes from '../../styles/Table.module.css';
+import classes from '../../../styles/Table.module.css';
 
 export const LaboratoriosTable = () => {
   const { laboratorios, toggleAllLaboratorios, selectedLaboratorios } = useLaboratoriosStore();

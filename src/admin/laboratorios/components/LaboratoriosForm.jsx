@@ -1,22 +1,22 @@
 import { useId } from 'react';
-import { useCategoriasStore } from '../../hooks';
-import classes from '../../styles/Form.module.css';
+import { useLaboratoriosStore } from '../../../hooks';
+import classes from '../../../styles/Form.module.css';
 
-export const CategoriasForm = () => {
+export const LaboratoriosForm = () => {
   const descripcionInputId = useId();
   const estadoRegistroInputId = useId();
 
-  const { activeCategoria, setActiveCategoria } = useCategoriasStore();
+  const { activeLaboratorio, setActiveLaboratorio } = useLaboratoriosStore();
   const onInputChange = ({ target }) => {
-    setActiveCategoria({
-      ...activeCategoria,
+    setActiveLaboratorio({
+      ...activeLaboratorio,
       [target.name]: target.value,
     });
   };
 
   return (
     <section className={classes['container']}>
-      <h2>Registro de Categoría</h2>
+      <h2>Registro de Laboratorio</h2>
       <section className={classes['container-form']}>
         <form className={classes['form']}>
           <div className={classes['form-container-input']}>
@@ -24,9 +24,9 @@ export const CategoriasForm = () => {
             <input
               type="text"
               id={descripcionInputId}
-              name="CatDes"
+              name="LabDes"
               onChange={onInputChange}
-              value={activeCategoria.CatDes}
+              value={activeLaboratorio.LabDes}
               className={classes['input']}
             />
           </div>
@@ -34,9 +34,9 @@ export const CategoriasForm = () => {
             <label className={classes['label-input']} htmlFor={estadoRegistroInputId}>Estado Registro</label>
             <select
               id={estadoRegistroInputId}
-              name="CatEstReg"
+              name="LabEstReg"
               onChange={onInputChange}
-              value={activeCategoria.CatEstReg}
+              value={activeLaboratorio.LabEstReg}
             >
               <option>A</option>
               <option>I</option>
@@ -49,4 +49,4 @@ export const CategoriasForm = () => {
   );
 };
 
-export default CategoriasForm;
+export default LaboratoriosForm;

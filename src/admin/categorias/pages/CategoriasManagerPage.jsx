@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import { useCategoriasStore } from '../../hooks';
+import { useCategoriasStore } from '../../../hooks';
 import { CategoriasButtons, CategoriasForm, CategoriasTable } from '../components';
-import classes from '../../styles/Container.module.css';
+import classes from '../../../styles/Container.module.css';
 
 export const CategoriasManagerPage = () => {
   const { startLoadingCategorias } = useCategoriasStore();

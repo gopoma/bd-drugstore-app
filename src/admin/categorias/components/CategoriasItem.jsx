@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useCategoriasStore } from '../../hooks';
-import classes from '../../styles/Table.module.css';
+import { useCategoriasStore } from '../../../hooks';
+import classes from '../../../styles/Table.module.css';
 
 export const CategoriasItem = ({ categoria }) => {
   const [selected, setSelected] = useState(false);

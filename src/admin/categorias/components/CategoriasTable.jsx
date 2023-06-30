@@ -1,6 +1,6 @@
-import { useCategoriasStore } from '../../hooks';
+import { useCategoriasStore } from '../../../hooks';
 import { CategoriasItem } from './CategoriasItem';
-import classes from '../../styles/Table.module.css';
+import classes from '../../../styles/Table.module.css';
 
 export const CategoriasTable = () => {
   const { categorias, toggleAllCategorias, selectedCategorias } = useCategoriasStore();
