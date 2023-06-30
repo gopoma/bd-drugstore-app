@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { useCategoriasStore } from '../../hooks';
-import classes from './CategoriasButtons.module.css';
+import classes from '../../styles/Buttons.module.css';
 
 export const CategoriasButtons = () => {
   const navigate = useNavigate();

@@ -1,6 +1,6 @@
 import { useId } from 'react';
 import { useCategoriasStore } from '../../hooks';
-import classes from './CategoriasForm.module.css';
+import classes from '../../styles/Form.module.css';
 
 export const CategoriasForm = () => {
   const descripcionInputId = useId();
