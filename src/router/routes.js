@@ -1,5 +1,6 @@
 import { lazy } from 'react';
 import { HomePage, NotFoundPage } from '../pages';
+import { RolesManagerPage } from '../admin/roles/pages';
 
 const AdminPanelPage = lazy(() => import('../pages/AdminPanelPage'));
 const CategoriasManagerPage = lazy(() => import('../admin/categorias/pages/CategoriasManagerPage'));
@@ -21,6 +22,10 @@ export const routes = [
   {
     path: 'admin/laboratorios',
     Component: LaboratoriosManagerPage,
+  },
+  {
+    path: 'admin/roles',
+    Component: RolesManagerPage,
   },
   {
     path: '404',
