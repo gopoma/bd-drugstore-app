@@ -1,10 +1,11 @@
 import { lazy } from 'react';
 import { HomePage, NotFoundPage } from '../pages';
-import { RolesManagerPage } from '../admin/roles/pages';
 
 const AdminPanelPage = lazy(() => import('../pages/AdminPanelPage'));
 const CategoriasManagerPage = lazy(() => import('../admin/categorias/pages/CategoriasManagerPage'));
 const LaboratoriosManagerPage = lazy(() => import('../admin/laboratorios/pages/LaboratoriosManagerPage'));
+const RolesManagerPage = lazy(() => import('../admin/roles/pages/RolesManagerPage'));
+const TiposEstadoPedidoManagerPage = lazy(() => import('../admin/tiposEstadoPedido/pages/TiposEstadoPedidoManagerPage'));
 
 export const routes = [
   {
@@ -26,6 +27,10 @@ export const routes = [
   {
     path: 'admin/roles',
     Component: RolesManagerPage,
+  },
+  {
+    path: 'admin/tipos-estado-pedido',
+    Component: TiposEstadoPedidoManagerPage,
   },
   {
     path: '404',

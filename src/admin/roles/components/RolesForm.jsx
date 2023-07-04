@@ -24,9 +24,9 @@ export const RolesForm = () => {
             <input
               type="text"
               id={descripcionInputId}
-              name="LabDes"
+              name="RolDes"
               onChange={onInputChange}
-              value={activeRol.LabDes}
+              value={activeRol.RolDes}
               className={classes['input']}
             />
           </div>
@@ -34,9 +34,9 @@ export const RolesForm = () => {
             <label className={classes['label-input']} htmlFor={estadoRegistroInputId}>Estado Registro</label>
             <select
               id={estadoRegistroInputId}
-              name="LabEstReg"
+              name="RolEstReg"
               onChange={onInputChange}
-              value={activeRol.LabEstReg}
+              value={activeRol.RolEstReg}
             >
               <option>A</option>
               <option>I</option>

@@ -33,7 +33,7 @@ export const useRolesStore = () => {
     try {
       if (activeRol.RolCod) {
         const { data } = await productsApi.patch(`/roles/${activeRol.RolCod}`, activeRol);
-        dispatch(onEditRol({ ...data.roles }));
+        dispatch(onEditRol({ ...data.rol }));
         return;
       }
 
@@ -87,7 +87,7 @@ export const useRolesStore = () => {
   const deleteMany = async () => {
     const promises = selectedRoles.map(async (idRol) => {
       const { data } = await productsApi.patch(`/roles/${idRol}`, { RolEstReg: '*' });
-      return data.roles;
+      return data.rol;
     });
 
     const results = await Promise.allSettled(promises);
