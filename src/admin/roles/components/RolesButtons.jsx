@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { useRolesStore } from '../../../hooks';
 import classes from '../../../styles/Buttons.module.css';
+import { isSelectedItemEditable } from '../../../helpers';
 
 export const RolesButtons = () => {
   const navigate = useNavigate();
@@ -42,7 +43,11 @@ export const RolesButtons = () => {
       </button>
       <button
         type="button"
-        disabled={selectedRolesCount !== 1}
+        disabled={!isSelectedItemEditable({
+          selectedItems: selectedRoles,
+          items: roles,
+          restrictTo: ['I', '*'],
+        })}
         onClick={onEdit}
       >
         Modificar

@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { useTiposUnidadMedidaStore } from '../../../hooks';
 import classes from '../../../styles/Buttons.module.css';
+import { isSelectedItemEditable } from '../../../helpers';
 
 export const TiposUnidadMedidaButtons = () => {
   const navigate = useNavigate();
@@ -42,7 +43,11 @@ export const TiposUnidadMedidaButtons = () => {
       </button>
       <button
         type="button"
-        disabled={selectedTiposUnidadMedidaCount !== 1}
+        disabled={!isSelectedItemEditable({
+          selectedItems: selectedTiposUnidadMedida,
+          items: tiposUnidadMedida,
+          restrictTo: ['I', '*'],
+        })}
         onClick={onEdit}
       >
         Modificar

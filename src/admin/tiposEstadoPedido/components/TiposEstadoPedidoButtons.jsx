@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { useTiposEstadoPedidoStore } from '../../../hooks';
 import classes from '../../../styles/Buttons.module.css';
+import { isSelectedItemEditable } from '../../../helpers';
 
 export const TiposEstadoPedidoButtons = () => {
   const navigate = useNavigate();
@@ -42,7 +43,11 @@ export const TiposEstadoPedidoButtons = () => {
       </button>
       <button
         type="button"
-        disabled={selectedTiposEstadoPedidoCount !== 1}
+        disabled={!isSelectedItemEditable({
+          selectedItems: selectedTiposEstadoPedido,
+          items: tiposEstadoPedido,
+          restrictTo: ['I', '*'],
+        })}
         onClick={onEdit}
       >
         Modificar

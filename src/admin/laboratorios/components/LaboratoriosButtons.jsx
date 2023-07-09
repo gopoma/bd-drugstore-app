@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { useLaboratoriosStore } from '../../../hooks';
 import classes from '../../../styles/Buttons.module.css';
+import { isSelectedItemEditable } from '../../../helpers';
 
 export const LaboratoriosButtons = () => {
   const navigate = useNavigate();
@@ -42,7 +43,11 @@ export const LaboratoriosButtons = () => {
       </button>
       <button
         type="button"
-        disabled={selectedLaboratoriosCount !== 1}
+        disabled={!isSelectedItemEditable({
+          selectedItems: selectedLaboratorios,
+          items: laboratorios,
+          restrictTo: ['I', '*'],
+        })}
         onClick={onEdit}
       >
         Modificar

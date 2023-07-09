@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { useCategoriasStore } from '../../../hooks';
 import classes from '../../../styles/Buttons.module.css';
+import { isSelectedItemEditable } from '../../../helpers';
 
 export const CategoriasButtons = () => {
   const navigate = useNavigate();
@@ -42,7 +43,11 @@ export const CategoriasButtons = () => {
       </button>
       <button
         type="button"
-        disabled={selectedCategoriasCount !== 1}
+        disabled={!isSelectedItemEditable({
+          selectedItems: selectedCategorias,
+          items: categorias,
+          restrictTo: ['I', '*'],
+        })}
         onClick={onEdit}
       >
         Modificar
