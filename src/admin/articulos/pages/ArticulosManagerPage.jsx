@@ -292,19 +292,22 @@ export const ArticulosManagerPage = () => {
             <tbody>
               {
                 articulos.map((articulo) => (
-                  <tr key={articulo.ArtCod}>
+                  <tr
+                    key={articulo.ArtCod}
+                    onClick={() => {
+                      if (selectedArticulos.includes(articulo.ArtCod)) {
+                        // eslint-disable-next-line
+                        setSelectedArticulos(selectedArticulos.filter((selectedArticulo) => selectedArticulo !== articulo.ArtCod));
+                      } else {
+                        setSelectedArticulos([...selectedArticulos, articulo.ArtCod]);
+                      }
+                    }}
+                  >
                     <td>
                       <input
                         type="checkbox"
                         checked={selectedArticulos.includes(articulo.ArtCod)}
-                        onChange={() => {
-                          if (selectedArticulos.includes(articulo.ArtCod)) {
-                            // eslint-disable-next-line
-                            setSelectedArticulos(selectedArticulos.filter((selectedArticulo) => selectedArticulo !== articulo.ArtCod));
-                          } else {
-                            setSelectedArticulos([...selectedArticulos, articulo.ArtCod]);
-                          }
-                        }}
+                        onChange={() => {}}
                       />
                     </td>
                     {
