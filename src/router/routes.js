@@ -7,6 +7,7 @@ const LaboratoriosManagerPage = lazy(() => import('../admin/laboratorios/pages/L
 const RolesManagerPage = lazy(() => import('../admin/roles/pages/RolesManagerPage'));
 const TiposUnidadMedidaManagerPage = lazy(() => import('../admin/tiposUnidadMedida/pages/TiposUnidadMedidaManagerPage'));
 const TiposEstadoPedidoManagerPage = lazy(() => import('../admin/tiposEstadoPedido/pages/TiposEstadoPedidoManagerPage'));
+const ArticulosManagerPage = lazy(() => import('../admin/articulos/pages/ArticulosManagerPage'));
 
 export const routes = [
   {
@@ -36,6 +37,10 @@ export const routes = [
   {
     path: 'admin/tipos-unidad-medida',
     Component: TiposUnidadMedidaManagerPage,
+  },
+  {
+    path: 'admin/articulos',
+    Component: ArticulosManagerPage,
   },
   {
     path: '404',
