@@ -327,7 +327,9 @@ export const ArticulosManagerPage = () => {
           </button>
           <button
             type="button"
-            disabled={selectedArticulos.length !== 1}
+            disabled={selectedArticulos.length !== 1
+              || (selectedArticulos.length === 1
+              && articulos.find((e) => e.ArtCod === selectedArticulos[0])).ArtEstReg !== 'A'}
             onClick={() => {
               const target = articulos.find((articulo) => articulo.ArtCod === selectedArticulos[0]);
               const r = {
