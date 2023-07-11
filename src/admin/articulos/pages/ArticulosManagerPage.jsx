@@ -33,10 +33,6 @@ export const ArticulosManagerPage = () => {
   const [selectedArticulos, setSelectedArticulos] = useState([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    console.log(activeArticulo);
-  }, [activeArticulo]);
-
   const onInputChange = ({ target }) => {
     setActiveArticulo({
       ...activeArticulo,
@@ -98,7 +94,6 @@ export const ArticulosManagerPage = () => {
         })
         .catch(console.error);
     } else {
-      console.log(activeArticulo);
       productsApi.patch(`/articulos/${activeArticulo.ArtCod}`, activeArticulo)
         .then(({ data: { articulo: _articulo } }) => {
           setArticulos(articulos.map((articulo) => {
@@ -237,7 +232,7 @@ export const ArticulosManagerPage = () => {
               />
             </div>
             <div>
-              <label htmlFor="ArtPreUni">Precio Unitario (En céntimos):</label>
+              <label htmlFor="ArtPreUni">Precio Unitario:</label>
               <input
                 type="text"
                 name="ArtPreUni"
@@ -349,6 +344,24 @@ export const ArticulosManagerPage = () => {
           </button>
           <button
             type="button"
+            disabled={selectedArticulos.length === 0}
+            onClick={async () => {
+              const promises = selectedArticulos.map((cod) => {
+                return productsApi.patch(`/articulos/${cod}`, { ArtEstReg: '*' });
+              });
+
+              const results = await Promise.allSettled(promises);
+              results.forEach((result) => {
+                const { data: { articulo: _articulo } } = result.value;
+                setArticulos((prevArticulos) => prevArticulos.map((articulo) => {
+                  if (articulo.ArtCod === _articulo.ArtCod) {
+                    return { ..._articulo };
+                  }
+                  return { ...articulo };
+                }));
+              });
+              setSelectedArticulos([]);
+            }}
           >
             Eliminar
           </button>
@@ -365,11 +378,47 @@ export const ArticulosManagerPage = () => {
           </button>
           <button
             type="button"
+            disabled={selectedArticulos.length === 0}
+            onClick={async () => {
+              const promises = selectedArticulos.map((cod) => {
+                return productsApi.patch(`/articulos/${cod}`, { ArtEstReg: 'I' });
+              });
+
+              const results = await Promise.allSettled(promises);
+              results.forEach((result) => {
+                const { data: { articulo: _articulo } } = result.value;
+                setArticulos((prevArticulos) => prevArticulos.map((articulo) => {
+                  if (articulo.ArtCod === _articulo.ArtCod) {
+                    return { ..._articulo };
+                  }
+                  return { ...articulo };
+                }));
+              });
+              setSelectedArticulos([]);
+            }}
           >
             Inactivar
           </button>
           <button
             type="button"
+            disabled={selectedArticulos.length === 0}
+            onClick={async () => {
+              const promises = selectedArticulos.map((cod) => {
+                return productsApi.patch(`/articulos/${cod}`, { ArtEstReg: 'A' });
+              });
+
+              const results = await Promise.allSettled(promises);
+              results.forEach((result) => {
+                const { data: { articulo: _articulo } } = result.value;
+                setArticulos((prevArticulos) => prevArticulos.map((articulo) => {
+                  if (articulo.ArtCod === _articulo.ArtCod) {
+                    return { ..._articulo };
+                  }
+                  return { ...articulo };
+                }));
+              });
+              setSelectedArticulos([]);
+            }}
           >
             Reactivar
           </button>
