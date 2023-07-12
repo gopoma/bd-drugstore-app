@@ -115,6 +115,7 @@ export const ArticulosManagerPage = () => {
   };
 
   return (
+    // eslint-disable-next-line
     <>
       <main>
         <h1>Artículos</h1>
@@ -442,7 +443,6 @@ export const ArticulosManagerPage = () => {
           </button>
         </section>
       </main>
-      <span>...</span>
     </>
   );
 };
