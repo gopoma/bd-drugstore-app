@@ -376,12 +376,15 @@ export const ArticulosManagerPage = () => {
           </button>
           <button
             type="button"
-            onClick={() => setActiveArticulo({
-              ...activeArticuloTemplate,
-              ArtLab: laboratorios?.[0]?.LabCod ?? -1,
-              ArtCat: categorias?.[0]?.CatCod ?? -1,
-              ArtTipUniMed: tiposUnidadMedida?.[0]?.CatCod ?? -1,
-            })}
+            onClick={() => {
+              setSelectedArticulos([]);
+              setActiveArticulo({
+                ...activeArticuloTemplate,
+                ArtLab: laboratorios?.[0]?.LabCod ?? -1,
+                ArtCat: categorias?.[0]?.CatCod ?? -1,
+                ArtTipUniMed: tiposUnidadMedida?.[0]?.CatCod ?? -1,
+              });
+            }}
           >
             Cancelar
           </button>
