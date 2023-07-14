@@ -9,6 +9,7 @@ const TiposUnidadMedidaManagerPage = lazy(() => import('../admin/tiposUnidadMedi
 const TiposEstadoPedidoManagerPage = lazy(() => import('../admin/tiposEstadoPedido/pages/TiposEstadoPedidoManagerPage'));
 const ArticulosManagerPage = lazy(() => import('../admin/articulos/pages/ArticulosManagerPage'));
 const UsuariosManagerPage = lazy(() => import('../admin/usuarios/pages/UsuariosManagerPage'));
+const PedidosManagerPage = lazy(() => import('../admin/pedidos/pages/PedidosManagerPage'));
 
 export const routes = [
   {
@@ -46,6 +47,10 @@ export const routes = [
   {
     path: 'admin/usuarios',
     Component: UsuariosManagerPage,
+  },
+  {
+    path: 'admin/pedidos',
+    Component: PedidosManagerPage,
   },
   {
     path: '404',
