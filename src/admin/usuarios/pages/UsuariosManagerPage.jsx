@@ -63,11 +63,16 @@ export const UsuariosManagerPage = () => {
   const onSaving = async () => {
     if (!Object.keys(activeUser).includes('UsuCod')) {
       // CREATE
-      const { data: { usuario } } = await productsApi.post('/usuarios/', activeUser);
+      const now = new Date();
+      const { data: { usuario } } = await productsApi.post('/usuarios/', {
+        ...activeUser,
+        UsuFecInsAño: now.getFullYear(),
+        UsuFecInsMes: now.getMonth()+1,
+        UsuFecInsDia: now.getDate(),
+      });
       setUsuarios((prevUsuarios) => [usuario, ...prevUsuarios]);
     } else {
       // EDIT
-      console.log(activeUser);
       const { data: { usuario: _usuario } } = await productsApi.patch(`/usuarios/${activeUser.UsuCod}`, activeUser);
       setUsuarios((prevUsuarios) => prevUsuarios
         .map((usuario) => {
