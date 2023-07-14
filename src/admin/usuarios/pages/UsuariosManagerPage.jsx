@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useNavigate } from 'react-router-dom';
-
+import classes from '../../../styles/Input.module.css';
+import tableClasses from '../../../styles/TableMain.module.css';
+import buttonClasses from '../../../styles/ButtonsMain.module.css';
 import { productsApi } from '../../../api';
 
 const namedUserFields = [
@@ -83,12 +85,12 @@ export const UsuariosManagerPage = () => {
   return (
     // eslint-disable-next-line
     <>
-      <main>
-        <h1>Usuarios</h1>
-        <section>
-          <h2>Registro de Usuario</h2>
-          <div>
-            <div>
+      <main className={classes['main']}>
+        <h1 className={classes['title']}>Usuarios</h1>
+        <section className={classes['container']}>
+          <h2 className={classes['title']}>Registro de Usuario</h2>
+          <div className={classes['container-form']}>
+            <div className={classes['container-input']}>
               <label htmlFor="UsuNom">Nombres:</label>
               <input
                 type="text"
@@ -99,7 +101,7 @@ export const UsuariosManagerPage = () => {
                 id="UsuNom"
               />
             </div>
-            <div>
+            <div className={classes['container-input']}>
               <label htmlFor="UsuApe">Apellidos:</label>
               <input
                 type="text"
@@ -110,7 +112,7 @@ export const UsuariosManagerPage = () => {
                 id="UsuApe"
               />
             </div>
-            <div>
+            <div className={classes['container-input']}>
               <label htmlFor="RolCod">Rol:</label>
               <select
                 name="RolCod"
@@ -129,7 +131,7 @@ export const UsuariosManagerPage = () => {
                 }
               </select>
             </div>
-            <div>
+            <div className={classes['container-input']}>
               <label htmlFor="UsuDir">Dirección:</label>
               <input
                 type="text"
@@ -140,7 +142,7 @@ export const UsuariosManagerPage = () => {
                 id="UsuDir"
               />
             </div>
-            <div>
+            <div className={classes['container-input']}>
               <label htmlFor="UsuEma">Email:</label>
               <input
                 type="email"
@@ -151,7 +153,7 @@ export const UsuariosManagerPage = () => {
                 id="UsuEma"
               />
             </div>
-            <div>
+            <div className={classes['container-input']}>
               <label htmlFor="UsuTel">Teléfono:</label>
               <input
                 type="text"
@@ -162,7 +164,7 @@ export const UsuariosManagerPage = () => {
                 id="UsuTel"
               />
             </div>
-            <div>
+            <div className={classes['container-input']}>
               <label htmlFor="UsuEstReg">Estado Registro:</label>
               <select
                 name="UsuEstReg"
@@ -179,10 +181,10 @@ export const UsuariosManagerPage = () => {
             </div>
           </div>
         </section>
-        <section>
-          <h2>Tabla_Usuario</h2>
+        <section className={tableClasses['container']}>
+          <h2 className={classes['title']}>Tabla_Usuario</h2>
           <div>
-            <table>
+            <table className={tableClasses['table']}>
               <thead>
                 <tr>
                   <th>Electivo</th>
@@ -227,7 +229,7 @@ export const UsuariosManagerPage = () => {
             </table>
           </div>
         </section>
-        <section>
+        <section className={buttonClasses['container']}>
           <button
             type="button"
             onClick={onSaving}
