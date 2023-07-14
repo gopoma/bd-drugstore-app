@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
-
+import classes from '../../../styles/Input.module.css';
+import tableClasses from '../../../styles/TableMain.module.css';
+import buttonClasses from '../../../styles/ButtonsMain.module.css';
 import { productsApi } from '../../../api';
 
 const articuloNamedFields = [
@@ -117,12 +119,17 @@ export const ArticulosManagerPage = () => {
   return (
     // eslint-disable-next-line
     <>
-      <main>
-        <h1>Artículos</h1>
-        <section>
-          <form onSubmit={onSaveArticulo}>
-            <div>
-              <label htmlFor="ArtNom">Nombre:</label>
+      <main className={classes['main']}>
+        <h1 className={classes['title']}>Artículos</h1>
+        <section className={classes['container']}>
+
+          <form className={classes['container-form']} onSubmit={onSaveArticulo}>
+            <div className={classes['container-input']}>
+              <label
+                htmlFor="ArtNom"
+              >
+                Nombre:
+              </label>
               <input
                 type="text"
                 name="ArtNom"
@@ -133,7 +140,7 @@ export const ArticulosManagerPage = () => {
               />
             </div>
 
-            <div>
+            <div className={classes['container-input']}>
               <label htmlFor="ArtLab">Laboratorio:</label>
               <select
                 name="ArtLab"
@@ -154,7 +161,7 @@ export const ArticulosManagerPage = () => {
               </select>
             </div>
 
-            <div>
+            <div className={classes['container-input']}>
               <label htmlFor="ArtCat">Categoría:</label>
               <select
                 name="ArtCat"
@@ -175,7 +182,7 @@ export const ArticulosManagerPage = () => {
               </select>
             </div>
 
-            <div>
+            <div className={classes['container-input']}>
               <label htmlFor="ArtTipUniMed">Tipo Unidad Medida:</label>
               <select
                 name="ArtTipUniMed"
@@ -196,7 +203,7 @@ export const ArticulosManagerPage = () => {
               </select>
 
             </div>
-            <div>
+            <div className={classes['container-input']}>
               <label htmlFor="ArtFecVenAño">Fecha Vencimiento Año:</label>
               <input
                 type="text"
@@ -208,7 +215,7 @@ export const ArticulosManagerPage = () => {
                 required
               />
             </div>
-            <div>
+            <div className={classes['container-input']}>
               <label htmlFor="ArtFecVenMes">Fecha Vencimiento Mes:</label>
               <input
                 type="text"
@@ -220,7 +227,7 @@ export const ArticulosManagerPage = () => {
                 required
               />
             </div>
-            <div>
+            <div className={classes['container-input']}>
               <label htmlFor="ArtFecVenDia">Fecha Vencimiento Día:</label>
               <input
                 type="text"
@@ -232,7 +239,7 @@ export const ArticulosManagerPage = () => {
                 required
               />
             </div>
-            <div>
+            <div className={classes['container-input']}>
               <label htmlFor="ArtPreUni">Precio Unitario:</label>
               <input
                 type="text"
@@ -243,7 +250,7 @@ export const ArticulosManagerPage = () => {
                 required
               />
             </div>
-            <div>
+            <div className={classes['container-input']}>
               <label htmlFor="ArtSto">Stock:</label>
               <input
                 type="text"
@@ -255,7 +262,7 @@ export const ArticulosManagerPage = () => {
                 required
               />
             </div>
-            <div>
+            <div className={classes['container-input']}>
               <label htmlFor="ArtSto">Estado Registro:</label>
               <select
                 name="ArtEstReg"
@@ -270,16 +277,12 @@ export const ArticulosManagerPage = () => {
               </select>
             </div>
             {/* eslint-disable-next-line */}
-            <button
-              type="submit"
-              style={{ display: 'hidden' }}
-              ref={formSubmitButton}
-            />
           </form>
         </section>
-        <section>
-          <h2>Tabla_Artículo</h2>
-          <table>
+
+        <section className={tableClasses['container']}>
+          <h2 className={classes['title']}>Tabla_Artículo</h2>
+          <table className={tableClasses['table']}>
             <thead>
               <tr>
                 <th>Electivos</th>
@@ -322,7 +325,7 @@ export const ArticulosManagerPage = () => {
             </tbody>
           </table>
         </section>
-        <section>
+        <section className={buttonClasses['container']}>
           <button
             type="button"
             onClick={() => formSubmitButton.current.click()}
