@@ -277,6 +277,11 @@ export const ArticulosManagerPage = () => {
               </select>
             </div>
             {/* eslint-disable-next-line */}
+            <button
+              type="submit"
+              style={{ display: 'none' }}
+              ref={formSubmitButton}
+            />
           </form>
         </section>
 
@@ -382,7 +387,7 @@ export const ArticulosManagerPage = () => {
                 ...activeArticuloTemplate,
                 ArtLab: laboratorios?.[0]?.LabCod ?? -1,
                 ArtCat: categorias?.[0]?.CatCod ?? -1,
-                ArtTipUniMed: tiposUnidadMedida?.[0]?.CatCod ?? -1,
+                ArtTipUniMed: tiposUnidadMedida?.[0]?.TipUniMedCod ?? -1,
               });
             }}
           >
