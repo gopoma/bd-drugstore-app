@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 import Swal from 'sweetalert2';
 
 import { productsApi } from '../../../api';
@@ -22,6 +23,7 @@ export const PedidosManagerPage = () => {
   const [selectedPedidos, setSelectedPedidos] = useState([]);
   // PEDIDOS' REACTIVE FORM
   const [activePedido, setActivePedido] = useState(initialPedidoTemplate);
+  const [activeArticulos, setActiveArticulos] = useState([]);
   // END PEDIDOS' REACTIVE FORM
   const navigate = useNavigate();
 
@@ -30,6 +32,25 @@ export const PedidosManagerPage = () => {
       ...prevActivePedido,
       [target.name]: target.value,
     }));
+  };
+
+  const onArticuloInputChange = (hash) => ({ target }) => {
+    setActiveArticulos((prevActiveArticulos) => prevActiveArticulos.map((articulo) => {
+      if (articulo.hash === hash) {
+        return {
+          ...articulo,
+          [target.name]: target.value,
+        };
+      }
+      return { ...articulo };
+    }));
+  };
+
+  const reset = () => {
+    setActiveArticulos([]);
+    setActivePedido({ ...initialPedidoTemplate });
+
+    setSelectedPedidos([]);
   };
 
   useEffect(() => {
@@ -61,16 +82,12 @@ export const PedidosManagerPage = () => {
 
     productsApi.get('/articulos')
       .then(({ data: { articulos: _articulos } }) => {
-        const activeArticulos = _articulos.filter((_articulo) => _articulo.ArtEstReg === 'A');
-        setArticulos(activeArticulos);
+        // eslint-disable-next-line
+        const __activeArticulos = _articulos.filter((_articulo) => _articulo.ArtEstReg === 'A');
+        setArticulos(__activeArticulos);
       })
       .catch(console.error);
   }, []);
-
-  const reset = () => {
-    setActivePedido({ ...initialPedidoTemplate });
-    setSelectedPedidos([]);
-  };
 
   const editarEstadosRegistro = (estadoRegistro) => async () => {
     const promises = selectedPedidos.map(async (pedNum) => {
@@ -180,7 +197,6 @@ export const PedidosManagerPage = () => {
                   ))
                 }
               </select>
-              {/* ARTICULOS */}
               <div>
                 <label htmlFor="PedEstReg">Estado Registro:</label>
                 <select
@@ -200,6 +216,111 @@ export const PedidosManagerPage = () => {
                     ))
                   }
                 </select>
+              </div>
+
+              {/* ARTICULOS */}
+              <div>
+                <span>Artículos:</span>
+                <button
+                  type="button"
+                  style={{
+                    padding: '0.12rem 0.75rem',
+                    fontSize: '1.2em',
+                  }}
+                  disabled={activeArticulos.length === articulos.length}
+                  onClick={() => {
+                    setActiveArticulos((prevActiveArticulos) => [...prevActiveArticulos, {
+                      hash: uuidv4(),
+                      PedArtArt: articulos?.[0]?.ArtCod ?? REFERENTIAL_UNINITIALIAZED,
+                      PedArtPreUni: '',
+                      PedArtCanSol: '',
+                      PedArtCanDes: '',
+                      PedArtEstReg: 'A',
+                    }]);
+                  }}
+                >
+                  +
+                </button>
+                {
+                  activeArticulos.map((articulo) => (
+                    <section key={articulo.hash}>
+                      <div>
+                        <label htmlFor="PedArtArt">Artículo:</label>
+                        <select
+                          name="PedArtArt"
+                          value={articulo.PedArtArt}
+                          onChange={onArticuloInputChange(articulo.hash)}
+                          id="PedArtArt"
+                        >
+                          {
+                            // eslint-disable-next-line
+                            articulos.map((articulo) => (
+                              <option
+                                key={articulo.ArtCod}
+                                value={articulo.ArtCod}
+                              >
+                                {articulo.ArtNom}
+                              </option>
+                            ))
+                          }
+                        </select>
+                      </div>
+                      <div>
+                        <label htmlFor="PedArtPreUni">Precio Unitario:</label>
+                        <input
+                          type="text"
+                          name="PedArtPreUni"
+                          value={articulo.PedArtPreUni}
+                          onChange={onArticuloInputChange(articulo.hash)}
+                          placeholder="Precio Unitario..."
+                          id="PedArtPreUni"
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="PedArtCanSol">Cantidad Solicitada:</label>
+                        <input
+                          type="text"
+                          name="PedArtCanSol"
+                          value={articulo.PedArtCanSol}
+                          onChange={onArticuloInputChange(articulo.hash)}
+                          placeholder="Cantidad Solicitada..."
+                          id="PedArtCanSol"
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="PedArtCanDes">Cantidad Despachada:</label>
+                        <input
+                          type="text"
+                          name="PedArtCanDes"
+                          value={articulo.PedArtCanDes}
+                          onChange={onArticuloInputChange(articulo.hash)}
+                          placeholder="Cantidad Despachada..."
+                          id="PedArtCanDes"
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="PedArtEstReg">Estado Registro</label>
+                        <select
+                          name="PedArtEstReg"
+                          value={articulo.PedArtEstReg}
+                          onChange={onArticuloInputChange(articulo.hash)}
+                          id="PedArtEstReg"
+                        >
+                          {
+                            ['A', 'I', '*'].map((estadoRegistro) => (
+                              <option
+                                key={uuidv4()}
+                                value={estadoRegistro}
+                              >
+                                {estadoRegistro}
+                              </option>
+                            ))
+                          }
+                        </select>
+                      </div>
+                    </section>
+                  ))
+                }
               </div>
             </div>
           </section>
@@ -330,13 +451,36 @@ export const PedidosManagerPage = () => {
           <button
             type="button"
             onClick={async () => {
-              productsApi.post('/pedidos', { ...activePedido })
+              try {
+                const { data: { pedido } } = await productsApi.post('/pedidos', { ...activePedido });
+
+                const promises = activeArticulos.map(async (articulo) => {
+                  const { data: { pedido: __pedido } } = await productsApi.post(`/pedidos/${pedido.PedNum}/articulos`, {
+                    PedArtArt: articulo.PedArtArt,
+                    PedArtPreUni: articulo.PedArtPreUni,
+                    PedArtCanSol: articulo.PedArtCanSol,
+                    PedArtCanDes: articulo.PedArtCanDes,
+                    PedArtEstReg: articulo.PedArtEstReg,
+                  });
+
+                  return __pedido;
+                });
+
+                const results = await Promise.allSettled(promises);
+                const r = results.reduce((acc, current) => {
+                  return current.value.articulos.length > acc.value.articulos.length
+                    ? current
+                    : acc;
+                });
+                const current = r.value;
+
                 // eslint-disable-next-line
-                .then(({ data: { pedido } }) => {
-                  setPedidos((prevPedidos) => [pedido, ...prevPedidos]);
-                  reset();
-                })
-                .catch(console.error);
+                setPedidos((prevPedidos) => [current, ...structuredClone(prevPedidos)]);
+
+                reset();
+              } catch (error) {
+                console.error(error);
+              }
             }}
           >
             Adicionar
