@@ -3,13 +3,37 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 import { productsApi } from '../../../api';
+const REFERENTIAL_UNINITIALIAZED = -125;
+
+const initialPedidoTemplate = {
+  PedCli: REFERENTIAL_UNINITIALIAZED,
+  PedFecAño: 0,
+  PedFecMes: 0,
+  PedFecDia: 0,
+  TipEstPedCod: REFERENTIAL_UNINITIALIAZED,
+  PedEstReg: 'A',
+};
 
 export const PedidosManagerPage = () => {
   const [pedidos, setPedidos] = useState([]);
   const [clientes, setClientes] = useState([]);
   const [tiposEstadoPedido, setTiposEstadoPedido] = useState([]);
   const [selectedPedidos, setSelectedPedidos] = useState([]);
+  // PEDIDOS' REACTIVE FORM
+  const [activePedido, setActivePedido] = useState(initialPedidoTemplate);
+  // END PEDIDOS' REACTIVE FORM
   const navigate = useNavigate();
+
+  const onPedidoInputChange = ({ target }) => {
+    setActivePedido((prevActivePedido) => ({
+      ...prevActivePedido,
+      [target.name]: target.value,
+    }));
+  };
+
+  useEffect(() => {
+    console.log(activePedido);
+  }, [activePedido]);
 
   useEffect(() => {
     productsApi.get('/pedidos')
@@ -20,7 +44,10 @@ export const PedidosManagerPage = () => {
       .then(({ data: { usuarios: _usuarios } }) => {
         const activeUsuarios = _usuarios.filter((_usuario) => _usuario.UsuEstReg === 'A');
         setClientes(activeUsuarios);
-        //! SET SELECTED ACTIVE USER
+        setActivePedido((prevActivePedido) => ({
+          ...prevActivePedido,
+          PedCli: activeUsuarios?.[0]?.UsuCod ?? REFERENTIAL_UNINITIALIAZED,
+        }));
       })
       .catch(console.error);
 
@@ -28,7 +55,10 @@ export const PedidosManagerPage = () => {
       .then(({ data: { tiposEstadoPedido: _tiposEstadoPedido } }) => {
         const activeTiposEstadoPedido = _tiposEstadoPedido.filter((_tipoEstadoPedido) => _tipoEstadoPedido.TipEstPedEstReg === 'A');
         setTiposEstadoPedido(activeTiposEstadoPedido);
-        //! SET SELECTED ACTIVE TIPO ESTADO PEDIDO
+        setActivePedido((prevActivePedido) => ({
+          ...prevActivePedido,
+          TipEstPedCod: activeTiposEstadoPedido?.[0]?.TipEstPedCod ?? REFERENTIAL_UNINITIALIAZED,
+        }));
       })
       .catch(console.error);
   }, []);
@@ -76,6 +106,7 @@ export const PedidosManagerPage = () => {
               <label htmlFor="PedCli">Cliente:</label>
               <select
                 name="PedCli"
+                onChange={onPedidoInputChange}
                 id="PedCli"
               >
                 {
@@ -96,6 +127,7 @@ export const PedidosManagerPage = () => {
               <input
                 type="text"
                 name="PedFecAño"
+                onChange={onPedidoInputChange}
                 placeholder="Fecha de Registro Año..."
                 id="PedFecAño"
               />
@@ -105,6 +137,7 @@ export const PedidosManagerPage = () => {
               <input
                 type="text"
                 name="PedFecMes"
+                onChange={onPedidoInputChange}
                 placeholder="Fecha de Registro Mes..."
                 id="PedFecMes"
               />
@@ -114,6 +147,7 @@ export const PedidosManagerPage = () => {
               <input
                 type="text"
                 name="PedFecDia"
+                onChange={onPedidoInputChange}
                 placeholder="Fecha de Registro Dia..."
                 id="PedFecDia"
               />
@@ -122,6 +156,7 @@ export const PedidosManagerPage = () => {
               <label htmlFor="TipEstPedCod">Estado:</label>
               <select
                 name="TipEstPedCod"
+                onChange={onPedidoInputChange}
                 id="TipEstPedCod"
               >
                 {
@@ -140,6 +175,7 @@ export const PedidosManagerPage = () => {
                 <label htmlFor="PedEstReg">Estado Registro:</label>
                 <select
                   name="PedEstReg"
+                  onChange={onPedidoInputChange}
                   id="PedEstReg"
                 >
                   {
