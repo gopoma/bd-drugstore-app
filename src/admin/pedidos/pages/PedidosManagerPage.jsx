@@ -7,9 +7,9 @@ import { productsApi } from '../../../api';
 const REFERENTIAL_UNINITIALIAZED = -125;
 const initialPedidoTemplate = {
   PedCli: REFERENTIAL_UNINITIALIAZED,
-  PedFecAño: 0,
-  PedFecMes: 0,
-  PedFecDia: 0,
+  PedFecAño: '',
+  PedFecMes: '',
+  PedFecDia: '',
   TipEstPedCod: REFERENTIAL_UNINITIALIAZED,
   PedEstReg: 'A',
 };
@@ -68,6 +68,7 @@ export const PedidosManagerPage = () => {
   }, []);
 
   const reset = () => {
+    setActivePedido({ ...initialPedidoTemplate });
     setSelectedPedidos([]);
   };
 
@@ -95,8 +96,6 @@ export const PedidosManagerPage = () => {
     reset();
   };
 
-  console.log(pedidos);
-
   return (
     // eslint-disable-next-line
     <>
@@ -112,6 +111,7 @@ export const PedidosManagerPage = () => {
               <label htmlFor="PedCli">Cliente:</label>
               <select
                 name="PedCli"
+                value={activePedido.PedCli}
                 onChange={onPedidoInputChange}
                 id="PedCli"
               >
@@ -133,6 +133,7 @@ export const PedidosManagerPage = () => {
               <input
                 type="text"
                 name="PedFecAño"
+                value={activePedido.PedFecAño}
                 onChange={onPedidoInputChange}
                 placeholder="Fecha de Registro Año..."
                 id="PedFecAño"
@@ -143,6 +144,7 @@ export const PedidosManagerPage = () => {
               <input
                 type="text"
                 name="PedFecMes"
+                value={activePedido.PedFecMes}
                 onChange={onPedidoInputChange}
                 placeholder="Fecha de Registro Mes..."
                 id="PedFecMes"
@@ -153,6 +155,7 @@ export const PedidosManagerPage = () => {
               <input
                 type="text"
                 name="PedFecDia"
+                value={activePedido.PedFecDia}
                 onChange={onPedidoInputChange}
                 placeholder="Fecha de Registro Dia..."
                 id="PedFecDia"
@@ -162,6 +165,7 @@ export const PedidosManagerPage = () => {
               <label htmlFor="TipEstPedCod">Estado:</label>
               <select
                 name="TipEstPedCod"
+                value={activePedido.TipEstPedCod}
                 onChange={onPedidoInputChange}
                 id="TipEstPedCod"
               >
@@ -181,6 +185,7 @@ export const PedidosManagerPage = () => {
                 <label htmlFor="PedEstReg">Estado Registro:</label>
                 <select
                   name="PedEstReg"
+                  value={activePedido.PedEstReg}
                   onChange={onPedidoInputChange}
                   id="PedEstReg"
                 >
@@ -327,7 +332,10 @@ export const PedidosManagerPage = () => {
             onClick={async () => {
               productsApi.post('/pedidos', { ...activePedido })
                 // eslint-disable-next-line
-                .then(({ data: { pedido } }) => setPedidos((prevPedidos) => [pedido, ...prevPedidos]))
+                .then(({ data: { pedido } }) => {
+                  setPedidos((prevPedidos) => [pedido, ...prevPedidos]);
+                  reset();
+                })
                 .catch(console.error);
             }}
           >
