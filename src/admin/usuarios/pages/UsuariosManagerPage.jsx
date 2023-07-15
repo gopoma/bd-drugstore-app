@@ -7,7 +7,7 @@ import buttonClasses from '../../../styles/ButtonsMain.module.css';
 import { productsApi } from '../../../api';
 
 const namedUserFields = [
-  'Código', 'Nombres', 'Apellidos', 'Rol', 'Dirección', 'Email', 'Teléfono',
+  'Código', 'Nombres', 'Apellidos', 'Rol', 'Email', 'Teléfono', 'Dirección',
   'Fecha Inscripción Año', 'Fecha Incripción Mes', 'Fecha Inscripción Día',
   'Estado Registro',
 ];

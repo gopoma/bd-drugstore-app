@@ -33,10 +33,6 @@ export const PedidosManagerPage = () => {
   };
 
   useEffect(() => {
-    console.log(activePedido);
-  }, [activePedido]);
-
-  useEffect(() => {
     productsApi.get('/pedidos')
       .then(({ data: { pedidos: _pedidos } }) => setPedidos(_pedidos))
       .catch(console.error);
@@ -98,6 +94,8 @@ export const PedidosManagerPage = () => {
 
     reset();
   };
+
+  console.log(pedidos);
 
   return (
     // eslint-disable-next-line
@@ -326,6 +324,12 @@ export const PedidosManagerPage = () => {
         <menu>
           <button
             type="button"
+            onClick={async () => {
+              productsApi.post('/pedidos', { ...activePedido })
+                // eslint-disable-next-line
+                .then(({ data: { pedido } }) => setPedidos((prevPedidos) => [pedido, ...prevPedidos]))
+                .catch(console.error);
+            }}
           >
             Adicionar
           </button>
