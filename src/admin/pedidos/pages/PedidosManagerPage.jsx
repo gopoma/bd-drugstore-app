@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 import { productsApi } from '../../../api';
 
@@ -13,6 +14,34 @@ export const PedidosManagerPage = () => {
       .then(({ data: { pedidos: _pedidos } }) => setPedidos(_pedidos))
       .catch(console.error);
   }, []);
+
+  const reset = () => {
+    setSelectedPedidos([]);
+  };
+
+  const editarEstadosRegistro = (estadoRegistro) => async () => {
+    const promises = selectedPedidos.map(async (pedNum) => {
+      const { data: { pedido } } = await productsApi.patch(`/pedidos/${pedNum}`, {
+        PedEstReg: estadoRegistro,
+      });
+
+      return pedido;
+    });
+
+    const results = await Promise.allSettled(promises);
+    results.forEach((result) => {
+      const pedido = result.value;
+
+      setPedidos((prevPedidos) => prevPedidos.map((_pedido) => {
+        if (_pedido.PedNum === pedido.PedNum) {
+          return { ...pedido };
+        }
+        return { ..._pedido };
+      }));
+    });
+
+    reset();
+  };
 
   return (
     // eslint-disable-next-line
@@ -35,6 +64,7 @@ export const PedidosManagerPage = () => {
                 <th>
                   <input
                     type="checkbox"
+                    checked={selectedPedidos.length === pedidos.length}
                     onChange={() => {
                       if (selectedPedidos.length === pedidos.length) {
                         setSelectedPedidos([]);
@@ -165,11 +195,27 @@ export const PedidosManagerPage = () => {
           <button
             type="button"
             disabled={selectedPedidos.length === 0}
+            onClick={async () => {
+              const { isConfirmed } = await Swal.fire({
+                title: 'Are you sure?',
+                text: 'Are you sure that you want to delete these records?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085D6',
+                cancelButtonColor: '#D33',
+                confirmButtonText: 'Yes, delete it!',
+              });
+
+              if (isConfirmed) {
+                editarEstadosRegistro('*')();
+              }
+            }}
           >
             Eliminar
           </button>
           <button
             type="button"
+            onClick={reset}
           >
             Cancelar
           </button>
@@ -177,12 +223,14 @@ export const PedidosManagerPage = () => {
           <button
             type="button"
             disabled={selectedPedidos.length === 0}
+            onClick={editarEstadosRegistro('I')}
           >
             Inactivar
           </button>
           <button
             type="button"
             disabled={selectedPedidos.length === 0}
+            onClick={editarEstadosRegistro('A')}
           >
             Reactivar
           </button>
