@@ -6,12 +6,30 @@ import { productsApi } from '../../../api';
 
 export const PedidosManagerPage = () => {
   const [pedidos, setPedidos] = useState([]);
+  const [clientes, setClientes] = useState([]);
+  const [tiposEstadoPedido, setTiposEstadoPedido] = useState([]);
   const [selectedPedidos, setSelectedPedidos] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     productsApi.get('/pedidos')
       .then(({ data: { pedidos: _pedidos } }) => setPedidos(_pedidos))
+      .catch(console.error);
+
+    productsApi.get('/usuarios')
+      .then(({ data: { usuarios: _usuarios } }) => {
+        const activeUsuarios = _usuarios.filter((_usuario) => _usuario.UsuEstReg === 'A');
+        setClientes(activeUsuarios);
+        //! SET SELECTED ACTIVE USER
+      })
+      .catch(console.error);
+
+    productsApi.get('/tipos-estado-pedido')
+      .then(({ data: { tiposEstadoPedido: _tiposEstadoPedido } }) => {
+        const activeTiposEstadoPedido = _tiposEstadoPedido.filter((_tipoEstadoPedido) => _tipoEstadoPedido.TipEstPedEstReg === 'A');
+        setTiposEstadoPedido(activeTiposEstadoPedido);
+        //! SET SELECTED ACTIVE TIPO ESTADO PEDIDO
+      })
       .catch(console.error);
   }, []);
 
@@ -53,7 +71,91 @@ export const PedidosManagerPage = () => {
 
         <section>
           <h2>Registro de Pedido</h2>
-          <section></section>
+          <section>
+            <div>
+              <label htmlFor="PedCli">Cliente:</label>
+              <select
+                name="PedCli"
+                id="PedCli"
+              >
+                {
+                  clientes.map((cliente) => (
+                    <option
+                      key={cliente.UsuCod}
+                      value={cliente.UsuCod}
+                    >
+                      {/* eslint-disable-next-line */}
+                      {cliente.UsuNom} {cliente.UsuApe}
+                    </option>
+                  ))
+                }
+              </select>
+            </div>
+            <div>
+              <label htmlFor="PedFecAño">Fecha de Registro Año:</label>
+              <input
+                type="text"
+                name="PedFecAño"
+                placeholder="Fecha de Registro Año..."
+                id="PedFecAño"
+              />
+            </div>
+            <div>
+              <label htmlFor="PedFecMes">Fecha de Registro Mes:</label>
+              <input
+                type="text"
+                name="PedFecMes"
+                placeholder="Fecha de Registro Mes..."
+                id="PedFecMes"
+              />
+            </div>
+            <div>
+              <label htmlFor="PedFecDia">Fecha de Registro Dia:</label>
+              <input
+                type="text"
+                name="PedFecDia"
+                placeholder="Fecha de Registro Dia..."
+                id="PedFecDia"
+              />
+            </div>
+            <div>
+              <label htmlFor="TipEstPedCod">Estado:</label>
+              <select
+                name="TipEstPedCod"
+                id="TipEstPedCod"
+              >
+                {
+                  tiposEstadoPedido.map((tipoEstadoPedido) => (
+                    <option
+                      key={tipoEstadoPedido.TipEstPedCod}
+                      value={tipoEstadoPedido.TipEstPedCod}
+                    >
+                      {tipoEstadoPedido.TipEstPedDes}
+                    </option>
+                  ))
+                }
+              </select>
+              {/* ARTICULOS */}
+              <div>
+                <label htmlFor="PedEstReg">Estado Registro:</label>
+                <select
+                  name="PedEstReg"
+                  id="PedEstReg"
+                >
+                  {
+                    ['A', 'I', '*'].map((estadoRegistro) => (
+                      <option
+                        key={estadoRegistro}
+                        value={estadoRegistro}
+                      >
+                        {estadoRegistro}
+                      </option>
+                    ))
+                  }
+                </select>
+              </div>
+            </div>
+          </section>
         </section>
 
         <section>
