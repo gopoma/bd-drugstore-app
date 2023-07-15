@@ -48,7 +48,11 @@ export const PedidosManagerPage = () => {
 
   const reset = () => {
     setActiveArticulos([]);
-    setActivePedido({ ...initialPedidoTemplate });
+    setActivePedido({
+      ...initialPedidoTemplate,
+      PedCli: clientes?.[0]?.UsuCod ?? REFERENTIAL_UNINITIALIAZED,
+      TipEstPedCod: tiposEstadoPedido?.[0]?.TipEstPedCod ?? REFERENTIAL_UNINITIALIAZED,
+    });
 
     setSelectedPedidos([]);
   };
@@ -450,6 +454,7 @@ export const PedidosManagerPage = () => {
         <menu>
           <button
             type="button"
+            disabled={Object.keys(activePedido).includes('PedNum')}
             onClick={async () => {
               try {
                 const { data: { pedido } } = await productsApi.post('/pedidos', { ...activePedido });
@@ -467,12 +472,19 @@ export const PedidosManagerPage = () => {
                 });
 
                 const results = await Promise.allSettled(promises);
-                const r = results.reduce((acc, current) => {
-                  return current.value.articulos.length > acc.value.articulos.length
-                    ? current
-                    : acc;
-                });
-                const current = r.value;
+                let current;
+                if (results.length > 0) {
+                  // eslint-disable-next-line
+                  const r = results.reduce((acc, current) => {
+                    return current.value.articulos.length > acc.value.articulos.length
+                      ? current
+                      : acc;
+                  });
+
+                  current = r.value;
+                } else {
+                  current = structuredClone(pedido);
+                }
 
                 // eslint-disable-next-line
                 setPedidos((prevPedidos) => [current, ...structuredClone(prevPedidos)]);
