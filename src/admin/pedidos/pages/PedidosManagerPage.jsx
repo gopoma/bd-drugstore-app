@@ -506,6 +506,16 @@ export const PedidosManagerPage = () => {
                 TipEstPedCod: tiposEstadoPedido.find((tipoEstadoPedido) => tipoEstadoPedido.TipEstPedDes === pedido.PedTipEstPed).TipEstPedCod,
                 PedEstReg: pedido.PedEstReg,
               });
+
+              setActiveArticulos(pedido.articulos.map((articulo) => ({
+                hash: uuidv4(),
+                stored: true,
+                PedArtArt: articulo.PedArtArtCod,
+                PedArtPreUni: articulo.PedArtPreUni,
+                PedArtCanSol: articulo.PedArtCanSol,
+                PedArtCanDes: articulo.PedArtCanDes,
+                PedArtEstReg: articulo.PedArtEstReg,
+              })));
             }}
           >
             Modificar
@@ -568,13 +578,45 @@ export const PedidosManagerPage = () => {
 
               try {
                 if (isConfirmed) {
-                  const { data: { pedido: _pedido } } = await productsApi.patch(`/pedidos/${activePedido.PedNum}`, {
+                  const { data: { pedido } } = await productsApi.patch(`/pedidos/${activePedido.PedNum}`, {
                     ...activePedido,
                   });
 
+                  const promises = activeArticulos.map(async (articulo) => {
+                    if (articulo.stored) {
+                      const { data: { pedido: __pedido } } = await productsApi.patch(`/pedidos/${pedido.PedNum}/articulos/${articulo.PedArtArt}`, {
+                        PedArtPreUni: articulo.PedArtPreUni,
+                        PedArtCanSol: articulo.PedArtCanSol,
+                        PedArtCanDes: articulo.PedArtCanDes,
+                        PedArtEstReg: articulo.PedArtEstReg,
+                      });
+
+                      return __pedido;
+                    }
+
+                    const { data: { pedido: __pedido } } = await productsApi.post(`/pedidos/${pedido.PedNum}/articulos`, {
+                      PedArtArt: articulo.PedArtArt,
+                      PedArtPreUni: articulo.PedArtPreUni,
+                      PedArtCanSol: articulo.PedArtCanSol,
+                      PedArtCanDes: articulo.PedArtCanDes,
+                      PedArtEstReg: articulo.PedArtEstReg,
+                    });
+
+                    return __pedido;
+                  });
+
+                  const results = await Promise.allSettled(promises);
+                  const r = results.reduce((acc, current) => {
+                    return current.value.articulos.length > acc.value.articulos.length
+                      ? current
+                      : acc;
+                  });
+                  const current = r.value;
+
+                  // eslint-disable-next-line
                   setPedidos((prevPedidos) => prevPedidos.map((pedido) => {
-                    if (pedido.PedNum === _pedido.PedNum) {
-                      return { ..._pedido };
+                    if (pedido.PedNum === current.PedNum) {
+                      return { ...current };
                     }
                     return { ...pedido };
                   }));
