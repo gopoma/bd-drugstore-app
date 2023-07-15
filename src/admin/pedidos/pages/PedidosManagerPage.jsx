@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 import { productsApi } from '../../../api';
-const REFERENTIAL_UNINITIALIAZED = -125;
 
+const REFERENTIAL_UNINITIALIAZED = -125;
 const initialPedidoTemplate = {
   PedCli: REFERENTIAL_UNINITIALIAZED,
   PedFecAño: 0,
@@ -18,6 +18,7 @@ export const PedidosManagerPage = () => {
   const [pedidos, setPedidos] = useState([]);
   const [clientes, setClientes] = useState([]);
   const [tiposEstadoPedido, setTiposEstadoPedido] = useState([]);
+  const [articulos, setArticulos] = useState([]);
   const [selectedPedidos, setSelectedPedidos] = useState([]);
   // PEDIDOS' REACTIVE FORM
   const [activePedido, setActivePedido] = useState(initialPedidoTemplate);
@@ -59,6 +60,13 @@ export const PedidosManagerPage = () => {
           ...prevActivePedido,
           TipEstPedCod: activeTiposEstadoPedido?.[0]?.TipEstPedCod ?? REFERENTIAL_UNINITIALIAZED,
         }));
+      })
+      .catch(console.error);
+
+    productsApi.get('/articulos')
+      .then(({ data: { articulos: _articulos } }) => {
+        const activeArticulos = _articulos.filter((_articulo) => _articulo.ArtEstReg === 'A');
+        setArticulos(activeArticulos);
       })
       .catch(console.error);
   }, []);
