@@ -347,6 +347,22 @@ export const PedidosManagerPage = () => {
               // eslint-disable-next-line
               selectedPedidos.length === 1 && pedidos.find((pedido) => pedido.PedNum === selectedPedidos[0]).PedEstReg !== 'A'
             )}
+            onClick={() => {
+              if (selectedPedidos.length !== 1) return;
+              const currentPedidoNum = selectedPedidos?.[0];
+              const pedido = pedidos.find((_pedido) => _pedido.PedNum === currentPedidoNum);
+
+              setActivePedido({
+                PedNum: pedido.PedNum,
+                PedCli: pedido.cliente.PedCliCod,
+                PedFecAño: pedido.PedFecAño,
+                PedFecMes: pedido.PedFecMes,
+                PedFecDia: pedido.PedFecDia,
+                // eslint-disable-next-line
+                TipEstPedCod: tiposEstadoPedido.find((tipoEstadoPedido) => tipoEstadoPedido.TipEstPedDes === pedido.PedTipEstPed).TipEstPedCod,
+                PedEstReg: pedido.PedEstReg,
+              });
+            }}
           >
             Modificar
           </button>
@@ -394,6 +410,37 @@ export const PedidosManagerPage = () => {
           </button>
           <button
             type="button"
+            disabled={!Object.keys(activePedido).includes('PedNum')}
+            onClick={async () => {
+              const { isConfirmed } = await Swal.fire({
+                title: 'Are you sure?',
+                text: 'You won\'t be able to revert this!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085D6',
+                cancelButtonColor: '#D33',
+                confirmButtonText: 'Yes, edit it!',
+              });
+
+              try {
+                if (isConfirmed) {
+                  const { data: { pedido: _pedido } } = await productsApi.patch(`/pedidos/${activePedido.PedNum}`, {
+                    ...activePedido,
+                  });
+
+                  setPedidos((prevPedidos) => prevPedidos.map((pedido) => {
+                    if (pedido.PedNum === _pedido.PedNum) {
+                      return { ..._pedido };
+                    }
+                    return { ...pedido };
+                  }));
+
+                  reset();
+                }
+              } catch (error) {
+                console.error(error);
+              }
+            }}
           >
             Actualizar
           </button>
