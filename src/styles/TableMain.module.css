@@ -45,3 +45,16 @@
 tbody tr:nth-child(2n) {
   background: #e6e6e9;
 }
+
+.deep-table {
+  color: #000;
+  border-collapse: collapse;
+  background: #84bae2;
+}
+
+.deep-table tr:hover{
+  background: transparent !important;
+}
+
+
+

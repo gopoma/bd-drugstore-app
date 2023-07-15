@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
+import classes from '../../../styles/Input.module.css';
+import tableClasses from '../../../styles/TableMain.module.css';
+import buttonClasses from '../../../styles/ButtonsMain.module.css';
 import Swal from 'sweetalert2';
 
 import { productsApi } from '../../../api';
@@ -120,15 +123,15 @@ export const PedidosManagerPage = () => {
   return (
     // eslint-disable-next-line
     <>
-      <main>
+      <main className={classes['main']}>
         <header>
-          <h1>Pedidos</h1>
+          <h1 className={classes['title']}>Pedidos</h1>
         </header>
 
         <section>
-          <h2>Registro de Pedido</h2>
-          <section>
-            <div>
+          <h2 className={classes['title']}>Registro de Pedido</h2>
+          <section className={classes['container-form']}>
+            <div className={classes['container-input']}>
               <label htmlFor="PedCli">Cliente:</label>
               <select
                 name="PedCli"
@@ -149,7 +152,7 @@ export const PedidosManagerPage = () => {
                 }
               </select>
             </div>
-            <div>
+            <div className={classes['container-input']}>
               <label htmlFor="PedFecAño">Fecha de Registro Año:</label>
               <input
                 type="text"
@@ -160,7 +163,7 @@ export const PedidosManagerPage = () => {
                 id="PedFecAño"
               />
             </div>
-            <div>
+            <div className={classes['container-input']}>
               <label htmlFor="PedFecMes">Fecha de Registro Mes:</label>
               <input
                 type="text"
@@ -171,7 +174,7 @@ export const PedidosManagerPage = () => {
                 id="PedFecMes"
               />
             </div>
-            <div>
+            <div className={classes['container-input']}>
               <label htmlFor="PedFecDia">Fecha de Registro Dia:</label>
               <input
                 type="text"
@@ -182,7 +185,7 @@ export const PedidosManagerPage = () => {
                 id="PedFecDia"
               />
             </div>
-            <div>
+            <div className={classes['container-input']}>
               <label htmlFor="TipEstPedCod">Estado:</label>
               <select
                 name="TipEstPedCod"
@@ -201,7 +204,7 @@ export const PedidosManagerPage = () => {
                   ))
                 }
               </select>
-              <div>
+              <div className={classes['container-input']}>
                 <label htmlFor="PedEstReg">Estado Registro:</label>
                 <select
                   name="PedEstReg"
@@ -223,116 +226,114 @@ export const PedidosManagerPage = () => {
               </div>
 
               {/* ARTICULOS */}
-              <div>
-                <span>Artículos:</span>
-                <button
-                  type="button"
-                  style={{
-                    padding: '0.12rem 0.75rem',
-                    fontSize: '1.2em',
-                  }}
-                  disabled={activeArticulos.length === articulos.length}
-                  onClick={() => {
-                    setActiveArticulos((prevActiveArticulos) => [...prevActiveArticulos, {
-                      hash: uuidv4(),
-                      PedArtArt: articulos?.[0]?.ArtCod ?? REFERENTIAL_UNINITIALIAZED,
-                      PedArtPreUni: '',
-                      PedArtCanSol: '',
-                      PedArtCanDes: '',
-                      PedArtEstReg: 'A',
-                    }]);
-                  }}
-                >
-                  +
-                </button>
-                {
-                  activeArticulos.map((articulo) => (
-                    <section key={articulo.hash}>
-                      <div>
-                        <label htmlFor="PedArtArt">Artículo:</label>
-                        <select
-                          name="PedArtArt"
-                          value={articulo.PedArtArt}
-                          onChange={onArticuloInputChange(articulo.hash)}
-                          id="PedArtArt"
-                        >
-                          {
-                            // eslint-disable-next-line
-                            articulos.map((articulo) => (
-                              <option
-                                key={articulo.ArtCod}
-                                value={articulo.ArtCod}
-                              >
-                                {articulo.ArtNom}
-                              </option>
-                            ))
-                          }
-                        </select>
-                      </div>
-                      <div>
-                        <label htmlFor="PedArtPreUni">Precio Unitario:</label>
-                        <input
-                          type="text"
-                          name="PedArtPreUni"
-                          value={articulo.PedArtPreUni}
-                          onChange={onArticuloInputChange(articulo.hash)}
-                          placeholder="Precio Unitario..."
-                          id="PedArtPreUni"
-                        />
-                      </div>
-                      <div>
-                        <label htmlFor="PedArtCanSol">Cantidad Solicitada:</label>
-                        <input
-                          type="text"
-                          name="PedArtCanSol"
-                          value={articulo.PedArtCanSol}
-                          onChange={onArticuloInputChange(articulo.hash)}
-                          placeholder="Cantidad Solicitada..."
-                          id="PedArtCanSol"
-                        />
-                      </div>
-                      <div>
-                        <label htmlFor="PedArtCanDes">Cantidad Despachada:</label>
-                        <input
-                          type="text"
-                          name="PedArtCanDes"
-                          value={articulo.PedArtCanDes}
-                          onChange={onArticuloInputChange(articulo.hash)}
-                          placeholder="Cantidad Despachada..."
-                          id="PedArtCanDes"
-                        />
-                      </div>
-                      <div>
-                        <label htmlFor="PedArtEstReg">Estado Registro</label>
-                        <select
-                          name="PedArtEstReg"
-                          value={articulo.PedArtEstReg}
-                          onChange={onArticuloInputChange(articulo.hash)}
-                          id="PedArtEstReg"
-                        >
-                          {
-                            ['A', 'I', '*'].map((estadoRegistro) => (
-                              <option
-                                key={uuidv4()}
-                                value={estadoRegistro}
-                              >
-                                {estadoRegistro}
-                              </option>
-                            ))
-                          }
-                        </select>
-                      </div>
-                    </section>
-                  ))
-                }
-              </div>
             </div>
           </section>
+          <div className={`${classes['container-input']} ${classes['add-products']}`}>
+            <span>Artículos:</span>
+            <button
+              type="button"
+              disabled={activeArticulos.length === articulos.length}
+              onClick={() => {
+                setActiveArticulos((prevActiveArticulos) => [...prevActiveArticulos, {
+                  hash: uuidv4(),
+                  PedArtArt: articulos?.[0]?.ArtCod ?? REFERENTIAL_UNINITIALIAZED,
+                  PedArtPreUni: '',
+                  PedArtCanSol: '',
+                  PedArtCanDes: '',
+                  PedArtEstReg: 'A',
+                }]);
+              }}
+            >
+              Agregar nuevo producto
+            </button>
+          </div>
+          <div className={classes['container-products']}>
+            {
+              activeArticulos.map((articulo) => (
+                <section className={classes['container-form']} key={articulo.hash}>
+                  <div className={classes['container-input']}>
+                    <label htmlFor="PedArtArt">Artículo:</label>
+                    <select
+                      name="PedArtArt"
+                      value={articulo.PedArtArt}
+                      onChange={onArticuloInputChange(articulo.hash)}
+                      id="PedArtArt"
+                    >
+                      {
+                        // eslint-disable-next-line
+                        articulos.map((articulo) => (
+                          <option
+                            key={articulo.ArtCod}
+                            value={articulo.ArtCod}
+                          >
+                            {articulo.ArtNom}
+                          </option>
+                        ))
+                      }
+                    </select>
+                  </div>
+                  <div className={classes['container-input']}>
+                    <label htmlFor="PedArtPreUni">Precio Unitario:</label>
+                    <input
+                      type="text"
+                      name="PedArtPreUni"
+                      value={articulo.PedArtPreUni}
+                      onChange={onArticuloInputChange(articulo.hash)}
+                      placeholder="Precio Unitario..."
+                      id="PedArtPreUni"
+                    />
+                  </div>
+                  <div className={classes['container-input']}>
+                    <label htmlFor="PedArtCanSol">Cantidad Solicitada:</label>
+                    <input
+                      type="text"
+                      name="PedArtCanSol"
+                      value={articulo.PedArtCanSol}
+                      onChange={onArticuloInputChange(articulo.hash)}
+                      placeholder="Cantidad Solicitada..."
+                      id="PedArtCanSol"
+                    />
+                  </div>
+                  <div className={classes['container-input']}>
+                    <label htmlFor="PedArtCanDes">Cantidad Despachada:</label>
+                    <input
+                      type="text"
+                      name="PedArtCanDes"
+                      value={articulo.PedArtCanDes}
+                      onChange={onArticuloInputChange(articulo.hash)}
+                      placeholder="Cantidad Despachada..."
+                      id="PedArtCanDes"
+                    />
+                  </div>
+                  <div className={classes['container-input']}>
+                    <label htmlFor="PedArtEstReg">Estado Registro</label>
+                    <select
+                      name="PedArtEstReg"
+                      value={articulo.PedArtEstReg}
+                      onChange={onArticuloInputChange(articulo.hash)}
+                      id="PedArtEstReg"
+                    >
+                      {
+                        ['A', 'I', '*'].map((estadoRegistro) => (
+                          <option
+                            key={uuidv4()}
+                            value={estadoRegistro}
+                          >
+                            {estadoRegistro}
+                          </option>
+                        ))
+                      }
+                    </select>
+                  </div>
+                </section>
+              ))
+            }
+          </div>
         </section>
 
-        <section>
-          <h2>Tabla_Pedido</h2>
-          <table>
+        <section className={tableClasses['container']}>
+          <h2 className={classes['title']}>Tabla_Pedido</h2>
+          <table className={tableClasses['table']}>
             <thead>
               <tr>
                 <th>
@@ -384,7 +385,7 @@ export const PedidosManagerPage = () => {
                     <td>
                       <details>
                         <summary>Ver detalles...</summary>
-                        <table>
+                        <table className={tableClasses['deep-table']}>
                           <thead>
                             <tr>
                               <th>Código</th>
@@ -416,7 +417,7 @@ export const PedidosManagerPage = () => {
                     <td>
                       <details>
                         <summary>Ver detalles...</summary>
-                        <table>
+                        <table className={tableClasses['deep-table']}>
                           <thead>
                             <tr>
                               <th>Código</th>
@@ -451,7 +452,7 @@ export const PedidosManagerPage = () => {
             </tbody>
           </table>
         </section>
-        <menu>
+        <menu className={buttonClasses['container']}>
           <button
             type="button"
             disabled={Object.keys(activePedido).includes('PedNum')}
